@@ -1,0 +1,5 @@
+infi.systray
+schedule
+pywin32
+psutil
+speedtest-cli

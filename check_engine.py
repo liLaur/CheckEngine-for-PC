@@ -6,9 +6,9 @@ import datetime
 import win32com.client as com
 import win32api
 import psutil
-import speedtest
+# import speedtest
 
-st = speedtest.Speedtest()
+# st = speedtest.Speedtest()
 
 running = True
 
