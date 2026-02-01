@@ -9,7 +9,7 @@ It runs in the background and check your computers:
 
 Then it shows you an icon summarizing the "problem".
 
-<img width="189" height="58" alt="image" src="https://github.com/user-attachments/assets/60e685a5-7fa1-450d-a60f-7538c501e39d" />
+<img width="150" height="44" alt="image" src="https://github.com/user-attachments/assets/60e685a5-7fa1-450d-a60f-7538c501e39d" />
 (program is running) 
 <br>
 <img width="172" height="44" alt="image" src="https://github.com/user-attachments/assets/ed406d18-d951-49a0-acdb-1df8aa7a74c6" />
@@ -17,6 +17,9 @@ Then it shows you an icon summarizing the "problem".
 
 # 
 This repository provides the source code for buiding manually the application and also the binary for Windows.
+___
+## Next features:
+- network speed test
 ___
 # Building/Geting the software
 ## Pre-packaged executable:
