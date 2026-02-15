@@ -5,7 +5,7 @@ a = Analysis(
     ['check_engine.py'],
     pathex=[],
     binaries=[],
-    datas=[('assets/*', 'assets')],
+    datas=[('assets', 'assets')],
     hiddenimports=['pkg_resources'],
     hookspath=[],
     hooksconfig={},
