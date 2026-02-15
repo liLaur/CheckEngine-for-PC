@@ -27,6 +27,7 @@ ___
 - then continue from the **auto start section**.
 
 ## To build from source you'll need to:
+- clone the repository
 - run `pip install -r requirements.txt`
 - then run `pyinstaller check_engine.spec` for building the executable
 - the executable is located in `dist` folder, the rest of the folders can be ignored.
