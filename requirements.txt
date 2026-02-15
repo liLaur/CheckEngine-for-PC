@@ -3,3 +3,4 @@ schedule
 pywin32
 psutil
 speedtest-cli
+pyinstaller
