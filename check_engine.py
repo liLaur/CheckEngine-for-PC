@@ -128,6 +128,9 @@ def check_10m():
     for light in lights_10m:
         SysTrayIcon.shutdown(light)
 
+    if internet_down is not None:
+        SysTrayIcon.shutdown(internet_down)
+
     lights_10m.clear()
 
     try:
@@ -190,6 +193,9 @@ def check_30s():
 
     for light in lights_30s:
         SysTrayIcon.shutdown(light)
+
+    if internet_down is not None:
+        SysTrayIcon.shutdown(internet_down)
 
     lights_30s.clear()
 
