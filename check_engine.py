@@ -135,28 +135,25 @@ def check_10m():
 
     try:
         st = speedtest.Speedtest()
+        download_speed = st.download() / 1000000
+        upload_speed = st.upload() / 1000000
+
+        print(f"download speed: {download_speed:.2f} Mbps")
+        print(f"upload speed: {upload_speed:.2f} Mbps")
+
+        # check for problems
+        if (download_speed < 30):
+            problem = f"Download speed is low ({download_speed:.2f} Mbps)"
+            createLight_10m(resource_path("assets/spark_plug_light.ico"), problem, None)
+        if upload_speed < 30:
+            problem = f"Upload speed is low ({upload_speed:.2f} Mbps)"
+            createLight_10m(resource_path("assets/spark_plug_light.ico"), problem, None)
     except:
         problem = f"Internet is down"
         if internet_down is None:
             internet_down = SysTrayIcon(resource_path("assets/spark_plug_light_red.ico"), problem)
             internet_down.start()
         return
-
-    download_speed = st.download() / 1000000
-    upload_speed = st.upload() / 1000000
-
-    print(f"download speed: {download_speed:.2f} Mbps")
-    print(f"upload speed: {upload_speed:.2f} Mbps")
-
-    # check for problems
-    if (download_speed < 30):
-        problem = f"Download speed is low ({download_speed:.2f} Mbps)"
-        createLight_10m(resource_path("assets/spark_plug_light.ico"), problem, None)
-    if upload_speed < 30:
-        problem = f"Upload speed is low ({upload_speed:.2f} Mbps)"
-        createLight_10m(resource_path("assets/spark_plug_light.ico"), problem, None)
-
-    del st
 
 def check_1m():
     now = datetime.datetime.now()
@@ -201,18 +198,17 @@ def check_30s():
 
     try:
         st = speedtest.Speedtest()
+        st.get_best_server()
+        print(f"ping: {st.results.ping} ms")
+        if (st.results.ping > 100):
+            problem = f"Ping is too high ({st.results.ping} ms)"
+            createLight_30s(resource_path("assets/spark_plug_light.ico"), problem, None)
     except:
         problem = f"Internet is down"
         if internet_down is None:
             internet_down = SysTrayIcon(resource_path("assets/spark_plug_light_red.ico"), problem)
             internet_down.start()
         return
-
-    st.get_best_server()
-    print(f"ping: {st.results.ping} ms")
-    if (st.results.ping > 100):
-        problem = f"Ping is too high ({st.results.ping} ms)"
-        createLight_30s(resource_path("assets/spark_plug_light.ico"), problem, None)
 
 schedule.every().hour.do(check_hourly)
 schedule.every().minute.do(check_1m)
