@@ -67,7 +67,85 @@ def onquit(systray):
         SysTrayIcon.shutdown(internet_down)
     running = False
 
-system_checker = SysTrayIcon(resource_path("assets/system_checker.ico"), "Checking your system", None, onquit)
+def checkUptime(systray):
+    global lights_h
+
+    for light in lights_h:
+        SysTrayIcon.shutdown(light)
+
+    lights_h.clear()
+
+    days, hour, mins, secs = getUptime()
+
+    menu_options = (("Restart", None, restart),)
+
+    problem = f"Uptime: {days} days"
+    createLight_h(resource_path("assets/check_engine_light.ico"), problem, menu_options)
+
+def checkInternet(systray):
+    global lights_10m
+
+    for light in lights_10m:
+        SysTrayIcon.shutdown(light)
+
+    lights_10m.clear()
+
+    try:
+        st = speedtest.Speedtest()
+
+        download_speed = st.download() / 1000000
+        upload_speed = st.upload() / 1000000
+        problem = f"Download speed: {download_speed:.2f} Mbps\nUpload speed: {upload_speed:.2f} Mbpss"
+        createLight_10m(resource_path("assets/spark_plug_light.ico"), problem, None)
+    except:
+        problem = f"Internet is down"
+        if internet_down is None:
+            internet_down = SysTrayIcon(resource_path("assets/spark_plug_light_red.ico"), problem)
+            internet_down.start()
+        return
+
+def checkPing(systray):
+    global lights_30s
+
+    for light in lights_30s:
+        SysTrayIcon.shutdown(light)
+
+    lights_30s.clear()
+
+    try:
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        problem = f"Ping: {st.results.ping} ms"
+        createLight_30s(resource_path("assets/spark_plug_light.ico"), problem, None)
+    except:
+        problem = f"Internet is down"
+        if internet_down is None:
+            internet_down = SysTrayIcon(resource_path("assets/spark_plug_light_red.ico"), problem)
+            internet_down.start()
+        return
+
+def checkDisk(systray):
+        global lights_1m
+
+        for light in lights_1m:
+            SysTrayIcon.shutdown(light)
+
+        lights_1m.clear()
+
+        usagePercent = int(FreeSpace("C:") / TotalSize("C:") * 100)
+
+        problem = f"Disk usage: {usagePercent}%"
+        createLight_1m(resource_path("assets/fuel_light.ico"), problem, None)
+
+
+main_options = (
+    ("Check up time", None, checkUptime),
+    ("Check internet speed", None, checkInternet),
+    ("Check ping", None, checkPing),
+    ("Check disk usage", None, checkDisk)
+)
+
+system_checker = SysTrayIcon(resource_path("assets/system_checker.ico"), "Checking your system", main_options, onquit)
 system_checker.start()
 
 def createLight_h(icon, problem, menu_options):
