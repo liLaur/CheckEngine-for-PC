@@ -115,7 +115,7 @@ def checkPing(systray):
     try:
         st = speedtest.Speedtest()
         st.get_best_server()
-        problem = f"Ping: {st.results.ping} ms"
+        problem = f"Ping: {st.results.ping:.2f} ms"
         createLight_30s(resource_path("assets/spark_plug_light.ico"), problem, None)
     except:
         problem = f"Internet is down"
@@ -132,9 +132,9 @@ def checkDisk(systray):
 
         lights_1m.clear()
 
-        usagePercent = int(FreeSpace("C:") / TotalSize("C:") * 100)
+        freeSpace = FreeSpace("C:")
 
-        problem = f"Disk usage: {usagePercent}%"
+        problem = f"Available space: {freeSpace:.2f} GB"
         createLight_1m(resource_path("assets/fuel_light.ico"), problem, None)
 
 
@@ -184,7 +184,7 @@ def check_hourly():
     lights_h.clear()
 
     days, hour, mins, secs = getUptime()
-    usagePercent = int(FreeSpace("C:") / TotalSize("C:") * 100)
+    emptyPercent = int(FreeSpace("C:") / TotalSize("C:") * 100)
 
     # check for problems
     if (days >= 2):
@@ -192,8 +192,8 @@ def check_hourly():
 
         problem = f"Too much uptime ({days} days)"
         createLight_h(resource_path("assets/check_engine_light.ico"), problem, menu_options)
-    if (usagePercent < 10):
-        problem = f"Low disk space ({usagePercent}%)"
+    if (emptyPercent < 10):
+        problem = f"Low disk space ({emptyPercent}%)"
         createLight_h(resource_path("assets/fuel_light.ico"), problem, None)
 
 def check_10m():
